@@ -1,0 +1,30 @@
+{% extends 'base.html' %}{% load static %} {% block content %}
+<title> {% block title %} ЗАЯВКИ {% endblock %} </title>
+{% load static %}
+
+
+<div class="container mt-15">
+
+<form method="post" enctype="multipart/form-data" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Добавить</button>
+</form>
+
+
+<table class="table table-bordered border-black">
+    {% for uploaded_file in uploaded_files %}
+    <tr>
+        <td>{{ uploaded_file.file }}</td>
+        <td>{{ uploaded_file.file_size }}</td>
+        <td>{{ uploaded_file.upload_date }}</td>
+        <td>{{ uploaded_file.hits }}</td>
+         <td><a href="{% url 'download_file' uploaded_file.pk %}">Download</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+</div>
+
+
+{%endblock%}
