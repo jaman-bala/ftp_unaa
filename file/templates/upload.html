@@ -3,27 +3,59 @@
 {% load static %}
 
 
-<div class="container mt-15">
+<div class="container mt-5">
+    <div class="row justify-content-evenly">
+        <div class="col-5">
+            <div class="card" style="width: 35rem; height: 25rem;">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" action=".">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div>
+                            <button class="btn btn-primary" type="submit">Добавить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-<form method="post" enctype="multipart/form-data" action=".">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Добавить</button>
-</form>
 
+        <div class="col-6">
+            <div class="card" style="width: 55rem; height: 65rem;">
+                <div class="card-body">
+                    <table class="table table-info table-bordered border-black">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Размер файла</th>
+                            <th scope="col">Дата загрузки</th>
+                            <th scope="col">Кол. загрузок</th>
+                            <th scope="col">Загрузка</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for uploaded_file in uploaded_files %}
+                        <tr>
+                            <td>{{ uploaded_file.id }}</td>
+                            <td>{{ uploaded_file.title }}</td>
+                            <td>{{ uploaded_file.file }}</td>
+                            <td>{{ uploaded_file.file_size }}</td>
+                            <td>{{ uploaded_file.upload_date }}</td>
+                            <td>{{ uploaded_file.hits }}</td>
+                            <td><a href="{% url 'download_file' uploaded_file.pk %}">
+                                <button type="button" class="btn btn-light">Download
+                                </button>
+                            </a></td>
+                        </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
 
-<table class="table table-bordered border-black">
-    {% for uploaded_file in uploaded_files %}
-    <tr>
-        <td>{{ uploaded_file.file }}</td>
-        <td>{{ uploaded_file.file_size }}</td>
-        <td>{{ uploaded_file.upload_date }}</td>
-        <td>{{ uploaded_file.hits }}</td>
-         <td><a href="{% url 'download_file' uploaded_file.pk %}">Download</a></td>
-    </tr>
-    {% endfor %}
-</table>
-
+    </div>
 </div>
 
 
